@@ -1,0 +1,12 @@
+{
+  "name": "koc-common-string",
+  "version": "1.0.0",
+  "description": "koc-common-string",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cq-guojia/koc-common-string.git"
+  },
+  "author": "",
+  "license": "ISC"
+}
