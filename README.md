@@ -1,0 +1,1 @@
+# koc-common-string
