@@ -1,6 +1,8 @@
 "use strict";
 
 const crypto = require('crypto');
+const xml2js = require('xml2js');
+const KOCReturn = require("koc-common-return");
 
 const StringUtils = {
   /********************************
@@ -126,7 +128,50 @@ const StringUtils = {
     const signer = crypto.createSign('RSA-SHA1');
     signer.update(val, 'utf-8');
     return signer.sign(key, 'base64');
+  },
+  //region xml转换成json
+  ParseXML: (xml) => {
+    return new Promise((resolve) => {
+      xml2js.parseString(xml, {trim: true}, function (err, obj) {
+        const retValue = KOCReturn.Value();
+        if (err) {
+          retValue.hasError = true;
+          retValue.message = err.message;
+          retValue.returnObject = err;
+          resolve(retValue);
+          return;
+        }
+        retValue.returnObject = obj;
+        resolve(retValue);
+      });
+    });
+  },
+  //endregion
+  //region 将xml2js解析出来的对象转换成直接可访问的对象
+  FormatXMLJSObj: (result) => {
+    let message = {};
+    if (typeof result === 'object') {
+      for (let key in result) {
+        if (!(result[key] instanceof Array) || result[key].length === 0) {
+          continue;
+        }
+        if (result[key].length === 1) {
+          let val = result[key][0];
+          if (typeof val === 'object') {
+            message[key] = StringUtils.FormatXMLJSObj(val);
+          } else {
+            message[key] = (val || '').trim();
+          }
+        } else {
+          message[key] = result[key].map(function (item) {
+            return StringUtils.FormatXMLJSObj(item);
+          });
+        }
+      }
+    }
+    return message;
   }
+  //endregion
 };
 
 module.exports = StringUtils;
