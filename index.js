@@ -4,15 +4,21 @@ const crypto = require('crypto');
 
 const StringUtils = {
   /********************************
-   * isEmailFormat
+   * IsEmailFormat
    ********************************/
-  isEmailFormat: (val) => {
+  IsEmailFormat: (val) => {
     return (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/).test(StringUtils.ToString(val));
+  },
+  /********************************
+   * IsPhone
+   ********************************/
+  IsPhone: (val) => {
+    return (/^1\d{10}$/).test(StringUtils.ToString(val));
   },
   /********************************
    * getStringLength 取得字符串长度(一个中文为两个长度)
    ********************************/
-  getStringLength: (val) => {
+  StringLength: (val) => {
     val = StringUtils.ToString(str);
     const cArr = val.match(/[^\x00-\xff]/ig);
     return val.length + (cArr ? 0 : cArr.length);
