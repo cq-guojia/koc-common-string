@@ -1,8 +1,6 @@
 "use strict";
 
 const Crypto = require("crypto");
-const Xml2js = require("xml2js");
-const KOCReturn = require("koc-common-return");
 
 const KOCString = {
   // region IsEmailFormat
@@ -128,49 +126,6 @@ const KOCString = {
     const signer = Crypto.createSign('RSA-SHA1');
     signer.update(val, 'utf-8');
     return signer.sign(key, 'base64');
-  },
-  // endregion
-  // region XMLObj2JSON
-  XMLObj2JSON: (result) => {
-    let message = {};
-    if (typeof result === 'object') {
-      for (let key in result) {
-        if (!(result[key] instanceof Array) || result[key].length === 0) {
-          continue;
-        }
-        if (result[key].length === 1) {
-          let val = result[key][0];
-          if (typeof val === 'object') {
-            message[key] = KOCString.XMLObj2JSON(val);
-          } else {
-            message[key] = (val || '').trim();
-          }
-        } else {
-          message[key] = result[key].map(function (item) {
-            return KOCString.XMLObj2JSON(item);
-          });
-        }
-      }
-    }
-    return message;
-  },
-  // endregion
-  // region XML2JSON
-  XML2JSON: (val) => {
-    return new Promise((resolve) => {
-      Xml2js.parseString(val, {trim: true}, function (err, obj) {
-        const retValue = KOCReturn.Value();
-        if (err) {
-          retValue.hasError = true;
-          retValue.message = err.message;
-          retValue.returnObject = err;
-          resolve(retValue);
-          return;
-        }
-        retValue.returnObject = KOCString.XMLObj2JSON(obj);
-        resolve(retValue);
-      });
-    });
   }
   // endregion
 };

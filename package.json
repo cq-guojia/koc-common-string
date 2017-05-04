@@ -1,6 +1,6 @@
 {
   "name": "koc-common-string",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "koc-common-string",
   "main": "index.js",
   "repository": {
@@ -8,9 +8,5 @@
     "url": "git@github.com:cq-guojia/koc-common-string.git"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "koc-common-return": "^1.0.1",
-    "xml2js": "^0.4.17"
-  }
+  "license": "ISC"
 }
