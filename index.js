@@ -1,7 +1,5 @@
 "use strict";
 
-const Crypto = require("crypto");
-
 const KOCString = {
   // region IsEmailFormat
   IsEmailFormat: (val) => {
@@ -106,27 +104,6 @@ const KOCString = {
         return !!defaultval;
     }
   },
-  // endregion
-  // region MD5
-  MD5: (val) => {
-    const md5 = Crypto.createHash('md5');
-    md5.update(val, 'utf8');
-    return md5.digest('hex').toLowerCase();
-  },
-  // endregion
-  // region SHA1
-  SHA1: (val) => {
-    const shasum = Crypto.createHash('sha1');
-    shasum.update(val);
-    return shasum.digest('hex').toLowerCase();
-  },
-  // endregion
-  // region RSASHA1
-  RSASHA1: (val, key) => {
-    const signer = Crypto.createSign('RSA-SHA1');
-    signer.update(val, 'utf-8');
-    return signer.sign(key, 'base64');
-  }
   // endregion
 };
 
