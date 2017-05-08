@@ -3,17 +3,17 @@
 const KOCString = {
   // region IsEmailFormat
   IsEmailFormat: (val) => {
-    return (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/).test(StringUtils.ToString(val));
+    return (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/).test(KOCString.ToString(val));
   },
   // endregion
   // region IsPhone
   IsPhone: (val) => {
-    return (/^1\d{10}$/).test(StringUtils.ToString(val));
+    return (/^1\d{10}$/).test(KOCString.ToString(val));
   },
   // endregion
   // region StringLength 取得字符串长度(一个中文为两个长度)
   StringLength: (val) => {
-    val = StringUtils.ToString(str);
+    val = KOCString.ToString(str);
     const cArr = val.match(/[^\x00-\xff]/ig);
     return val.length + (cArr ? 0 : cArr.length);
   },
@@ -51,7 +51,7 @@ const KOCString = {
   // endregion
   // region ToIntPositive
   ToIntPositive: (val, defaultval) => {
-    return StringUtils.ToInt(val, defaultval, true);
+    return KOCString.ToInt(val, defaultval, true);
   },
   // endregion
   // region ToFloat
@@ -73,7 +73,7 @@ const KOCString = {
       val = defaultval;
     }
     if (fixed) {
-      val = val.toFixed(StringUtils.ToIntPositive(fixed));
+      val = val.toFixed(KOCString.ToIntPositive(fixed));
     }
     return val;
 
@@ -81,22 +81,22 @@ const KOCString = {
   // endregion
   // region ToFloatPositive 返回正值Float
   ToFloatPositive: (val, defaultval, fixed) => {
-    return StringUtils.ToFloat(val, defaultval, true, fixed);
+    return KOCString.ToFloat(val, defaultval, true, fixed);
   },
   // endregion
   // region ToCurrency 返回金额(2位小数，string)
   ToCurrency: (val, defaultval, positive) => {
-    return StringUtils.ToFloat(val, defaultval, positive, 2);
+    return KOCString.ToFloat(val, defaultval, positive, 2);
   },
   // endregion
   // region ToCurrencyPositive 返回正值金额(2位小数，string)
   ToCurrencyPositive: (val, defaultval) => {
-    return StringUtils.ToFloat(val, defaultval, true, 2);
+    return KOCString.ToFloat(val, defaultval, true, 2);
   },
   // endregion
   // region ToBoolean 返回bool
   ToBoolean: (val, defaultval) => {
-    switch (StringUtils.ToString(val).toLowerCase()) {
+    switch (KOCString.ToString(val).toLowerCase()) {
       case "true":
       case "1":
         return true;
