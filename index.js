@@ -96,10 +96,16 @@ const KOCString = {
   // endregion
   // region ToBoolean 返回bool
   ToBoolean: (val, defaultval) => {
+    if (val === true || val === false) {
+      return val;
+    }
     switch (KOCString.ToString(val).toLowerCase()) {
       case "true":
       case "1":
         return true;
+      case "false":
+      case "0":
+        return false;
       default:
         return !!defaultval;
     }
