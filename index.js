@@ -1,5 +1,7 @@
 "use strict";
 
+const CryptoJS = require("crypto-js");
+
 const KOCString = {
   // region IsEmailFormat
   IsEmailFormat: (val) => {
@@ -110,6 +112,20 @@ const KOCString = {
         return !!defaultval;
     }
   },
+  // endregion
+  // region ToJSON
+  ToJSON: (val, defaultval) => {
+    try {
+      return JSON.parse(KOCString.ToString(val));
+    } catch (ex) {
+      return defaultval || null;
+    }
+  },
+  // endregion
+  // region MD5
+  MD5: (val) => {
+    return CryptoJS.MD5(val).toString();
+  }
   // endregion
 };
 
