@@ -33,7 +33,7 @@ const KOCString = {
    * char             替代串，默认*
    ********************************/
   Cover: function (str, type, char) {
-    str = this.ToString(str);
+    str = KOCString.ToString(str);
     if (!str) {
       return "";
     }
@@ -49,13 +49,13 @@ const KOCString = {
       if (_index < 3) {
         return char + char + char + str.substr(_index);
       }
-      var _len = this.ToInt(_index / 3);
+      var _len = KOCString.ToInt(_index / 3);
       return str.substr(0, _len) + char + char + char + char + char + str.substr(_index - _len);
     } else if ((!type || type == "QQ") && RegularUtils.Verify(str, "QQ")) {
-      var _len = this.ToInt(str.length / 3);
+      var _len = KOCString.ToInt(str.length / 3);
       return str.substr(0, _len) + char + char + char + char + char + str.substr(str.length - _len);
     } else if (str.length >= 3) {
-      var _len = this.ToInt(str.length / 3);
+      var _len = KOCString.ToInt(str.length / 3);
       return str.substr(0, _len) + char + char + char + char + char + str.substr(str.length - _len);
     } else {
       return char + char + char;
@@ -105,7 +105,7 @@ const KOCString = {
     if (notnegative && val < 0) {
       val = defaultval < 0 ? 0 : defaultval;
     }
-    fixed = this.ToInt(fixed, -1);
+    fixed = KOCString.ToInt(fixed, -1);
     if (fixed >= 0) {
       val = val.toFixed(fixed);
     }
@@ -117,37 +117,37 @@ const KOCString = {
   // endregion
   // region ToFloatPositive 正数Float
   ToFloatPositive: function (val, defaultval, fixed) {
-    return this.ToFloat(val, defaultval, fixed, false, true);
+    return KOCString.ToFloat(val, defaultval, fixed, false, true);
   },
   // endregion
   // region ToFloatStr 字符串Float
   ToFloatStr: function (val, defaultval, fixed) {
-    return this.ToFloat(val, defaultval, fixed, true);
+    return KOCString.ToFloat(val, defaultval, fixed, true);
   },
   // endregion
   // region ToFloatPositiveStr 正数字符串Float
   ToFloatPositiveStr: function (val, defaultval, fixed) {
-    return this.ToFloat(val, defaultval, fixed, true, true);
+    return KOCString.ToFloat(val, defaultval, fixed, true, true);
   },
   // endregion
   // region ToCurrency 金额
   ToCurrency: function (val, defaultval) {
-    return this.ToFloat(val, defaultval, 2);
+    return KOCString.ToFloat(val, defaultval, 2);
   },
   // endregion
   // region ToCurrencyPositive 正数金额
   ToCurrencyPositive: function (val, defaultval) {
-    return this.ToFloat(val, defaultval, 2, false, true);
+    return KOCString.ToFloat(val, defaultval, 2, false, true);
   },
   // endregion
   // region ToCurrencyStr 字符串金额
   ToCurrencyStr: function (val, defaultval) {
-    return this.ToFloat(val, defaultval, 2, true);
+    return KOCString.ToFloat(val, defaultval, 2, true);
   },
   // endregion
   // region ToCurrencyPositiveStr 正数字符串金额
   ToCurrencyPositiveStr: function (val, defaultval) {
-    return this.ToFloat(val, defaultval, 2, true, true);
+    return KOCString.ToFloat(val, defaultval, 2, true, true);
   },
   // endregion
   // region ToBoolean 返回bool
