@@ -109,9 +109,7 @@ const KOCString = {
     if (fixed >= 0) {
       val = val.toFixed(fixed);
     }
-    if (!str) {
-      val = parseFloat(val);
-    }
+    val = str ? KOCString.ToString(val) : parseFloat(val);
     return val;
   },
   // endregion
