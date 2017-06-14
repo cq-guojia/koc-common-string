@@ -176,6 +176,16 @@ const KOCString = {
     }
   },
   // endregion
+  // region FloatSplit 拆分
+  FloatSplit: (val, fixed) => {
+    val = KOCString.ToFloatStr(val, 0, fixed).split(".");
+    return {
+      Minus: val[0].indexOf("-") === 0,
+      Int: val[0].replace("-", ""),
+      Decimal: val.length > 1 ? val[1] : null
+    };
+  },
+  // endregion
   // region MD5
   MD5: (val) => {
     return CryptoJS.MD5(val).toString();
