@@ -13,7 +13,7 @@ const KOCString = {
       QQ: /[1-9][0-9]{4,}/
     },
     Verify: (str, type) => {
-      type = this.Data[type];
+      type = KOCString.Regular.Data[type];
       return type ? (type).test(str) : false;
     }
   },
