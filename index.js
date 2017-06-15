@@ -3,14 +3,19 @@
 const CryptoJS = require("crypto-js");
 
 const KOCString = {
-  // region IsEmailFormat
-  IsEmailFormat: (val) => {
-    return (/^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/).test(KOCString.ToString(val));
-  },
-  // endregion
-  // region IsPhone
-  IsPhone: (val) => {
-    return (/^1\d{10}$/).test(KOCString.ToString(val));
+  // region Regular 正则验证
+  Regular: {
+    Data: {
+      Phone: /^1\d{10}$/,
+      Tell: /\d{3}-\d{8}|\d{4}-\d{7}/,
+      IDCard: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
+      Email: /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/,
+      QQ: /[1-9][0-9]{4,}/
+    },
+    Verify: (str, type) => {
+      type = this.Data[type];
+      return type ? (type).test(str) : false;
+    }
   },
   // endregion
   // region StringLength 取得字符串长度(一个中文为两个长度)
@@ -40,18 +45,18 @@ const KOCString = {
     char = char || "*";
     if (type == "Name") {
       return str.substr(0, 1) + char + char;
-    } else if ((!type || type == "Phone") && RegularUtils.Verify(str, "Phone")) {
+    } else if ((!type || type == "Phone") && KOCString.Regular.Verify(str, "Phone")) {
       return str.substr(0, 3) + char + char + char + char + str.substr(str.length - 4);
-    } else if ((!type || type == "IDCard") && RegularUtils.Verify(str, "IDCard")) {
+    } else if ((!type || type == "IDCard") && KOCString.Regular.Verify(str, "IDCard")) {
       return str.substr(0, 6) + char + char + char + char + char + char + char + char + str.substr(str.length - 4);
-    } else if ((!type || type == "Email") && RegularUtils.Verify(str, "Email")) {
+    } else if ((!type || type == "Email") && KOCString.Regular.Verify(str, "Email")) {
       var _index = str.indexOf("@");
       if (_index < 3) {
         return char + char + char + str.substr(_index);
       }
       var _len = KOCString.ToInt(_index / 3);
       return str.substr(0, _len) + char + char + char + char + char + str.substr(_index - _len);
-    } else if ((!type || type == "QQ") && RegularUtils.Verify(str, "QQ")) {
+    } else if ((!type || type == "QQ") && KOCString.Regular.Verify(str, "QQ")) {
       var _len = KOCString.ToInt(str.length / 3);
       return str.substr(0, _len) + char + char + char + char + char + str.substr(str.length - _len);
     } else if (str.length >= 3) {
