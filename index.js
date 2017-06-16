@@ -224,6 +224,18 @@ const KOCString = {
     return CryptoJS.AES.decrypt(val, key).toString(CryptoJS.enc.Utf8);
   },
   // endregion
+  // region RandomString 随机字符串
+  RandomString: (len) => {
+    len = len || 32;
+    const chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';//默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
+    const maxPos = chars.length;
+    let str = '';
+    for (let i = 0; i < len; i++) {
+      str += chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+    return str;
+  },
+  // endregion
 };
 
 module.exports = KOCString;
