@@ -225,6 +225,11 @@ const KOCString = {
   },
   // endregion
   // region RandomString 随机字符串
+  /**************************
+   *
+   * @param len
+   * @returns {string}
+   **************************/
   RandomString: (len) => {
     len = len || 32;
     const chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';//默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
