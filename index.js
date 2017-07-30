@@ -37,7 +37,7 @@ const KOCString = {
    * type             Phone/IDCard/Email/QQ
    * char             替代串，默认*
    ********************************/
-  Cover: function(str, type, char) {
+  Cover: function (str, type, char) {
     str = KOCString.ToString(str);
     if (!str) {
       return '';
@@ -127,37 +127,37 @@ const KOCString = {
   },
   // endregion
   // region ToFloatPositive 正数Float
-  ToFloatPositive: function(val, defaultval, fixed) {
+  ToFloatPositive: function (val, defaultval, fixed) {
     return KOCString.ToFloat(val, defaultval, fixed, false, true);
   },
   // endregion
   // region ToFloatStr 字符串Float
-  ToFloatStr: function(val, defaultval, fixed) {
+  ToFloatStr: function (val, defaultval, fixed) {
     return KOCString.ToFloat(val, defaultval, fixed, true);
   },
   // endregion
   // region ToFloatPositiveStr 正数字符串Float
-  ToFloatPositiveStr: function(val, defaultval, fixed) {
+  ToFloatPositiveStr: function (val, defaultval, fixed) {
     return KOCString.ToFloat(val, defaultval, fixed, true, true);
   },
   // endregion
   // region ToCurrency 金额
-  ToCurrency: function(val, defaultval) {
+  ToCurrency: function (val, defaultval) {
     return KOCString.ToFloat(val, defaultval, 2);
   },
   // endregion
   // region ToCurrencyPositive 正数金额
-  ToCurrencyPositive: function(val, defaultval) {
+  ToCurrencyPositive: function (val, defaultval) {
     return KOCString.ToFloat(val, defaultval, 2, false, true);
   },
   // endregion
   // region ToCurrencyStr 字符串金额
-  ToCurrencyStr: function(val, defaultval) {
+  ToCurrencyStr: function (val, defaultval) {
     return KOCString.ToFloat(val, defaultval, 2, true);
   },
   // endregion
   // region ToCurrencyPositiveStr 正数字符串金额
-  ToCurrencyPositiveStr: function(val, defaultval) {
+  ToCurrencyPositiveStr: function (val, defaultval) {
     return KOCString.ToFloat(val, defaultval, 2, true, true);
   },
   // endregion
@@ -200,6 +200,11 @@ const KOCString = {
   // region MD5
   MD5: (val) => {
     return CryptoJS.MD5(val).toString();
+  },
+  // endregion
+  // region SHA1
+  SHA1: (val) => {
+    return CryptoJS.SHA1(val).toString();
   },
   // endregion
   // region AESEncrypt:AES加密
