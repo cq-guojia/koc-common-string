@@ -1,8 +1,10 @@
 'use strict';
 
-const CryptoJS = require('crypto-js');
+/* C */
+var CryptoJS = require('crypto-js');
 
-const KOCString = {
+/* C */
+var KOCString = {
   // region Regular 正则验证
   Regular: {
     Data: {
@@ -12,21 +14,22 @@ const KOCString = {
       Email: /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/,
       QQ: /[1-9][0-9]{4,}/,
     },
-    Verify: (str, type) => {
+    Verify: function (str, type) {
       type = KOCString.Regular.Data[type];
       return type ? (type).test(str) : false;
     },
   },
   // endregion
   // region StringLength 取得字符串长度(一个中文为两个长度)
-  StringLength: (val) => {
+  StringLength: function (val) {
     val = KOCString.ToString(str);
-    const cArr = val.match(/[^\x00-\xff]/ig);
+    /* C */
+    var cArr = val.match(/[^\x00-\xff]/ig);
     return val.length + (cArr ? 0 : cArr.length);
   },
   // endregion
   // region ToString
-  ToString: (val) => {
+  ToString: function (val) {
     return val == undefined ? '' : val.toString();
   },
   // endregion
@@ -82,7 +85,7 @@ const KOCString = {
    * defaultval       默认值(不传为0)
    * positive         是否必须为正值true/false(当true时如果为负值返回defaultval)
    ********************************/
-  ToInt: (val, defaultval, positive) => {
+  ToInt: function (val, defaultval, positive) {
     defaultval = parseInt(defaultval);
     defaultval = isNaN(defaultval) ? 0 : defaultval;
     val = parseInt(val);
@@ -96,7 +99,7 @@ const KOCString = {
   },
   // endregion
   // region ToIntPositive
-  ToIntPositive: (val, defaultval) => {
+  ToIntPositive: function (val, defaultval) {
     return KOCString.ToInt(val, defaultval, true);
   },
   // endregion
@@ -109,7 +112,7 @@ const KOCString = {
    * str              是否返回字符串
    * notnegative      是否必须为正值true/false(当true时如果为负值返回defaultval)
    ********************************/
-  ToFloat: (val, defaultval, fixed, str, positive, notnegative) => {
+  ToFloat: function (val, defaultval, fixed, str, positive, notnegative) {
     defaultval = isNaN(parseFloat(defaultval)) ? 0 : parseFloat(defaultval);
     val = parseFloat(val);
     if (isNaN(val)) {
@@ -162,7 +165,7 @@ const KOCString = {
   },
   // endregion
   // region ToBoolean 返回bool
-  ToBoolean: (val, defaultval) => {
+  ToBoolean: function (val, defaultval) {
     if (val === true || val === false) {
       return val;
     }
@@ -179,7 +182,7 @@ const KOCString = {
   },
   // endregion
   // region ToJSON
-  ToJSON: (val, defaultval) => {
+  ToJSON: function (val, defaultval) {
     try {
       return JSON.parse(KOCString.ToString(val));
     } catch (ex) {
@@ -188,7 +191,7 @@ const KOCString = {
   },
   // endregion
   // region FloatSplit 拆分
-  FloatSplit: (val, fixed) => {
+  FloatSplit: function (val, fixed) {
     val = KOCString.ToFloatStr(val, 0, fixed).split('.');
     return {
       Minus: val[0].indexOf('-') === 0,
@@ -198,12 +201,12 @@ const KOCString = {
   },
   // endregion
   // region MD5
-  MD5: (val) => {
+  MD5: function (val) {
     return CryptoJS.MD5(val).toString();
   },
   // endregion
   // region SHA1
-  SHA1: (val) => {
+  SHA1: function (val) {
     return CryptoJS.SHA1(val).toString();
   },
   // endregion
@@ -214,7 +217,7 @@ const KOCString = {
    * @param key 密钥
    * @returns {string} 加密字符串
    *************************/
-  AESEncrypt: (val, key) => {
+  AESEncrypt: function (val, key) {
     return CryptoJS.AES.encrypt(val, key).toString();
   },
   // endregion
@@ -225,7 +228,7 @@ const KOCString = {
    * @param key 密钥
    * @returns {string} 解密字符串
    **************************/
-  AESDecrypt: (val, key) => {
+  AESDecrypt: function (val, key) {
     return CryptoJS.AES.decrypt(val, key).toString(CryptoJS.enc.Utf8);
   },
   // endregion
@@ -235,16 +238,19 @@ const KOCString = {
    * @param len
    * @returns {string}
    **************************/
-  RandomString: (len) => {
+  RandomString: function (len) {
     len = len || 32;
-    const chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';//默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
-    const maxPos = chars.length;
-    let str = '';
-    for (let i = 0; i < len; i++) {
+    /* C */
+    var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';//默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
+    /* C */
+    var maxPos = chars.length;
+    /* L */
+    var str = '';
+    for (/* L */ var i = 0; i < len; i++) {
       str += chars.charAt(Math.floor(Math.random() * maxPos));
     }
     return str;
-  },
+  }
   // endregion
 };
 
