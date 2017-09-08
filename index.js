@@ -190,7 +190,20 @@ var KOCString = {
     }
   },
   // endregion
-  // region FloatSplit 拆分
+  // JSONClear JSON清理(把null,un的键删除)只支持一级
+  JSONClear: function (val) {
+    try {
+      for (const ThisKey in val) {
+        if (val[ThisKey] === null || val[ThisKey] === undefined) {
+          delete val[ThisKey]
+        }
+      }
+    } catch (ex) {
+      return null
+    }
+    return val
+  },
+  // region FloatSplit 拆分(拆分为 符号,整数,小数)
   FloatSplit: function (val, fixed) {
     val = KOCString.ToFloatStr(val, 0, fixed).split('.');
     return {
