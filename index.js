@@ -22,10 +22,33 @@ var KOCString = {
   // endregion
   // region StringLength 取得字符串长度(一个中文为两个长度)
   StringLength: function (val) {
-    val = KOCString.ToString(str);
+    val = KOCString.ToString(val);
     /* C */
     var cArr = val.match(/[^\x00-\xff]/ig);
     return val.length + (cArr ? 0 : cArr.length);
+  },
+  // endregion
+  // region StringLengthCut 截取字符串长度(一个中文为两个长度)
+  StringLengthCut: function (val, length, str) {
+    length = KOCString.ToIntPositive(length);
+    if (!length) {
+      return val;
+    }
+    val = KOCString.ToString(val);
+    /* L */
+    var retString = '';
+    /* L */
+    var isCut = false;
+    for (var i = 0; i < val.length; i++) {
+      length -= (val[i].match(/[^\x00-\xff]/ig) !== null ? 2 : 1);
+      if (length >= 0) {
+        retString += val[i];
+      } else {
+        isCut = true;
+        break
+      }
+    }
+    return retString + (isCut && str !== false ? '…' : '');
   },
   // endregion
   // region ToString
