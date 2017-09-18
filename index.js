@@ -45,10 +45,38 @@ var KOCString = {
         retString += val[i];
       } else {
         isCut = true;
-        break
+        break;
       }
     }
     return retString + (isCut && str !== false ? '…' : '');
+  },
+  // endregion
+  // region StringLengthBR 字符串换行
+  StringLengthBR: function (val, length) {
+    length = KOCString.ToIntPositive(length);
+    if (!length) {
+      return val;
+    }
+    val = KOCString.ToString(val);
+    /* C */
+    var retStringArray = [];
+    /* L */
+    var len = length;
+    var retString = '';
+    for (var i = 0; i < val.length; i++) {
+      len -= (val[i].match(/[^\x00-\xff]/ig) !== null ? 2 : 1);
+      if (len >= 0) {
+        retString += val[i];
+      } else {
+        retStringArray.push(retString);
+        len = length;
+        retString = '';
+      }
+    }
+    if (retString) {
+      retStringArray.push(retString);
+    }
+    return retStringArray;
   },
   // endregion
   // region ToString
