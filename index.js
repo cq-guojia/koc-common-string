@@ -244,7 +244,8 @@ var KOCString = {
   // JSONClear JSON清理(把null,un的键删除)只支持一级
   JSONClear: function (val) {
     try {
-      for (const ThisKey in val) {
+      /* C */
+      for (var ThisKey in val) {
         if (val[ThisKey] === null || val[ThisKey] === undefined) {
           delete val[ThisKey]
         }
