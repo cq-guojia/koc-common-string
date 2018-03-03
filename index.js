@@ -5,7 +5,7 @@ var CryptoJS = require('crypto-js');
 
 /* C */
 var KOCString = {
-  // region Regular 正则验证
+  // region Regular 正则表达式验证
   Regular: {
     Data: {
       Phone: /^1\d{10}$/,
