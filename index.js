@@ -13,6 +13,7 @@ var KOCString = {
       IDCard: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
       Email: /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/,
       QQ: /[1-9][0-9]{4,}/,
+      IPv4: /((25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))\.){3}(25[0-5]|2[0-4]\d|((1\d{2})|([1-9]?\d)))/
     },
     Verify: function (str, type) {
       type = KOCString.Regular.Data[type];
