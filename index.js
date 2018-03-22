@@ -24,9 +24,11 @@ var KOCString = {
   // region StringLength 取得字符串长度(一个中文为两个长度)
   StringLength: function (val) {
     val = KOCString.ToString(val);
+    return val.replace(/[\u0391-\uFFE5]/g, 'aa').length
     /* C */
-    var cArr = val.match(/[^\x00-\xff]/ig);
-    return val.length + (cArr ? 0 : cArr.length);
+    // var cArr = val.match(/[^\x00-\xff]/ig);
+    // return val.length + (cArr ? 0 : cArr.length);
+
   },
   // endregion
   // region StringLengthCut 截取字符串长度(一个中文为两个长度)

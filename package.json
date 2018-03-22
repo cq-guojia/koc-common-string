@@ -1,6 +1,6 @@
 {
   "name": "koc-common-string",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "description": "koc-common-string",
   "main": "index.js",
   "dependencies": {
