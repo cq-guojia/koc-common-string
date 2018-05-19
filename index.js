@@ -269,6 +269,11 @@ var KOCString = {
     };
   },
   // endregion
+  // region FloatSplit 拆分(拆分为 符号,整数,小数)
+  FloatSplitCurrency: function (val) {
+    return KOCString.FloatSplit(val, 2);
+  },
+  // endregion
   // region MD5
   MD5: function (val) {
     return CryptoJS.MD5(val).toString();
