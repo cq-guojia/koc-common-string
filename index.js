@@ -262,14 +262,16 @@ var KOCString = {
   // region FloatSplit 拆分(拆分为 符号,整数,小数)
   FloatSplit: function (val, fixed) {
     val = KOCString.ToFloatStr(val, 0, fixed).split('.');
-    return {
+    val = {
       Minus: val[0].indexOf('-') === 0,
       Int: val[0].replace('-', ''),
       Decimal: val.length > 1 ? val[1] : null,
     };
+    val.Html = '<em>' + (val.Minus ? '' : '-') + val.Int + '</em>.' + val.Decimal;
+    return val;
   },
   // endregion
-  // region FloatSplit 拆分(拆分为 符号,整数,小数)
+  // region FloatSplitCurrency
   FloatSplitCurrency: function (val) {
     return KOCString.FloatSplit(val, 2);
   },
