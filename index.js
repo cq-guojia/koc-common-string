@@ -267,7 +267,7 @@ var KOCString = {
       Int: val[0].replace('-', ''),
       Decimal: val.length > 1 ? val[1] : null,
     };
-    val.Html = '<em>' + (val.Minus ? '-' : '') + val.Int + '</em>.' + val.Decimal;
+    val.Html = '<em>' + (val.Minus ? '-' : '') + val.Int + '</em>' + (val.Decimal ? '.' + val.Decimal : '');
     return val;
   },
   // endregion
