@@ -328,6 +328,12 @@ var KOCString = {
     return str
   },
   // endregion
+  /**
+   * 用于解析和格式化 URL 查询字符串
+   * @method parse(str[, sep[, eq[, options]]]) 将 URL 查询字符串 str 解析为键值对的集合
+   * @method stringify(obj[, sep[, eq[, options]]]) 通过 obj 生成 URL 查询字符串
+   * @return {string | Object}
+   */
   QueryString: require('qs')
 }
 
