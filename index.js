@@ -328,7 +328,7 @@ var KOCString = {
     return str
   },
   // endregion
-  QueryString: require('querystring')
+  QueryString: require('qs')
 }
 
 module.exports = KOCString
