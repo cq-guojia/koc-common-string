@@ -1,7 +1,7 @@
-'use strict';
+'use strict'
 
 /* C */
-var CryptoJS = require('crypto-js');
+var CryptoJS = require('crypto-js')
 
 /* C */
 var KOCString = {
@@ -17,14 +17,14 @@ var KOCString = {
       Http: /^http(s)?:\/\//i
     },
     Verify: function (str, type) {
-      type = KOCString.Regular.Data[type];
-      return type ? (type).test(str) : false;
+      type = KOCString.Regular.Data[type]
+      return type ? (type).test(str) : false
     },
   },
   // endregion
   // region StringLength 取得字符串长度(一个中文为两个长度)
   StringLength: function (val) {
-    val = KOCString.ToString(val);
+    val = KOCString.ToString(val)
     return val.replace(/[\u0391-\uFFE5]/g, 'aa').length
     /* C */
     // var cArr = val.match(/[^\x00-\xff]/ig);
@@ -34,58 +34,58 @@ var KOCString = {
   // endregion
   // region StringLengthCut 截取字符串长度(一个中文为两个长度)
   StringLengthCut: function (val, length, str) {
-    length = KOCString.ToIntPositive(length);
+    length = KOCString.ToIntPositive(length)
     if (!length) {
-      return val;
+      return val
     }
-    val = KOCString.ToString(val);
+    val = KOCString.ToString(val)
     /* L */
-    var retString = '';
+    var retString = ''
     /* L */
-    var isCut = false;
+    var isCut = false
     for (var i = 0; i < val.length; i++) {
-      length -= (val[i].match(/[^\x00-\xff]/ig) !== null ? 2 : 1);
+      length -= (val[i].match(/[^\x00-\xff]/ig) !== null ? 2 : 1)
       if (length >= 0) {
-        retString += val[i];
+        retString += val[i]
       } else {
-        isCut = true;
-        break;
+        isCut = true
+        break
       }
     }
-    return retString + (isCut && str !== false ? '…' : '');
+    return retString + (isCut && str !== false ? '…' : '')
   },
   // endregion
   // region StringLengthBR 字符串换行
   StringLengthBR: function (val, length) {
-    length = KOCString.ToIntPositive(length);
+    length = KOCString.ToIntPositive(length)
     if (!length) {
-      return val;
+      return val
     }
-    val = KOCString.ToString(val);
+    val = KOCString.ToString(val)
     /* C */
-    var retStringArray = [];
+    var retStringArray = []
     /* L */
-    var len = length;
-    var retString = '';
+    var len = length
+    var retString = ''
     for (var i = 0; i < val.length; i++) {
-      len -= (val[i].match(/[^\x00-\xff]/ig) !== null ? 2 : 1);
+      len -= (val[i].match(/[^\x00-\xff]/ig) !== null ? 2 : 1)
       if (len >= 0) {
-        retString += val[i];
+        retString += val[i]
       } else {
-        retStringArray.push(retString);
-        len = length;
-        retString = '';
+        retStringArray.push(retString)
+        len = length
+        retString = ''
       }
     }
     if (retString) {
-      retStringArray.push(retString);
+      retStringArray.push(retString)
     }
-    return retStringArray;
+    return retStringArray
   },
   // endregion
   // region ToString
   ToString: function (val) {
-    return val == undefined ? '' : val.toString();
+    return val == undefined ? '' : val.toString()
   },
   // endregion
   // region Cover
@@ -96,40 +96,40 @@ var KOCString = {
    * char             替代串，默认*
    ********************************/
   Cover: function (str, type, char) {
-    str = KOCString.ToString(str);
+    str = KOCString.ToString(str)
     if (!str) {
-      return '';
+      return ''
     }
-    char = char || '*';
+    char = char || '*'
     if (type == 'Name') {
-      return str.substr(0, 1) + char + char;
+      return str.substr(0, 1) + char + char
     } else if ((!type || type == 'Phone') &&
       KOCString.Regular.Verify(str, 'Phone')) {
       return str.substr(0, 3) + char + char + char + char +
-        str.substr(str.length - 4);
+        str.substr(str.length - 4)
     } else if ((!type || type == 'IDCard') &&
       KOCString.Regular.Verify(str, 'IDCard')) {
       return str.substr(0, 6) + char + char + char + char + char + char + char +
-        char + str.substr(str.length - 4);
+        char + str.substr(str.length - 4)
     } else if ((!type || type == 'Email') &&
       KOCString.Regular.Verify(str, 'Email')) {
-      var _index = str.indexOf('@');
+      var _index = str.indexOf('@')
       if (_index < 3) {
-        return char + char + char + str.substr(_index);
+        return char + char + char + str.substr(_index)
       }
-      var _len = KOCString.ToInt(_index / 3);
+      var _len = KOCString.ToInt(_index / 3)
       return str.substr(0, _len) + char + char + char + char + char +
-        str.substr(_index - _len);
+        str.substr(_index - _len)
     } else if ((!type || type == 'QQ') && KOCString.Regular.Verify(str, 'QQ')) {
-      var _len = KOCString.ToInt(str.length / 3);
+      var _len = KOCString.ToInt(str.length / 3)
       return str.substr(0, _len) + char + char + char + char + char +
-        str.substr(str.length - _len);
+        str.substr(str.length - _len)
     } else if (str.length >= 3) {
-      var _len = KOCString.ToInt(str.length / 3);
+      var _len = KOCString.ToInt(str.length / 3)
       return str.substr(0, _len) + char + char + char + char + char +
-        str.substr(str.length - _len);
+        str.substr(str.length - _len)
     } else {
-      return char + char + char;
+      return char + char + char
     }
   },
   // endregion
@@ -141,21 +141,21 @@ var KOCString = {
    * positive         是否必须为正值true/false(当true时如果为负值返回defaultval)
    ********************************/
   ToInt: function (val, defaultval, positive) {
-    defaultval = parseInt(defaultval);
-    defaultval = isNaN(defaultval) ? 0 : defaultval;
-    val = parseInt(val);
+    defaultval = parseInt(defaultval)
+    defaultval = isNaN(defaultval) ? 0 : defaultval
+    val = parseInt(val)
     if (isNaN(val)) {
-      val = defaultval;
+      val = defaultval
     }
     if (positive && val < 0) {
-      val = defaultval;
+      val = defaultval
     }
-    return val;
+    return val
   },
   // endregion
   // region ToIntPositive
   ToIntPositive: function (val, defaultval) {
-    return KOCString.ToInt(val, defaultval, true);
+    return KOCString.ToInt(val, defaultval, true)
   },
   // endregion
   // region ToFloat
@@ -168,80 +168,80 @@ var KOCString = {
    * notnegative      是否必须为正值true/false(当true时如果为负值返回defaultval)
    ********************************/
   ToFloat: function (val, defaultval, fixed, str, positive, notnegative) {
-    defaultval = isNaN(parseFloat(defaultval)) ? 0 : parseFloat(defaultval);
-    val = parseFloat(val);
+    defaultval = isNaN(parseFloat(defaultval)) ? 0 : parseFloat(defaultval)
+    val = parseFloat(val)
     if (isNaN(val)) {
-      val = defaultval;
+      val = defaultval
     }
     if (notnegative && val < 0) {
-      val = defaultval < 0 ? 0 : defaultval;
+      val = defaultval < 0 ? 0 : defaultval
     }
-    fixed = KOCString.ToInt(fixed, -1);
+    fixed = KOCString.ToInt(fixed, -1)
     if (fixed >= 0) {
-      val = val.toFixed(fixed);
+      val = val.toFixed(fixed)
     }
-    val = str ? KOCString.ToString(val) : parseFloat(val);
-    return val;
+    val = str ? KOCString.ToString(val) : parseFloat(val)
+    return val
   },
   // endregion
   // region ToFloatPositive 正数Float
   ToFloatPositive: function (val, defaultval, fixed) {
-    return KOCString.ToFloat(val, defaultval, fixed, false, true);
+    return KOCString.ToFloat(val, defaultval, fixed, false, true)
   },
   // endregion
   // region ToFloatStr 字符串Float
   ToFloatStr: function (val, defaultval, fixed) {
-    return KOCString.ToFloat(val, defaultval, fixed, true);
+    return KOCString.ToFloat(val, defaultval, fixed, true)
   },
   // endregion
   // region ToFloatPositiveStr 正数字符串Float
   ToFloatPositiveStr: function (val, defaultval, fixed) {
-    return KOCString.ToFloat(val, defaultval, fixed, true, true);
+    return KOCString.ToFloat(val, defaultval, fixed, true, true)
   },
   // endregion
   // region ToCurrency 金额
   ToCurrency: function (val, defaultval) {
-    return KOCString.ToFloat(val, defaultval, 2);
+    return KOCString.ToFloat(val, defaultval, 2)
   },
   // endregion
   // region ToCurrencyPositive 正数金额
   ToCurrencyPositive: function (val, defaultval) {
-    return KOCString.ToFloat(val, defaultval, 2, false, true);
+    return KOCString.ToFloat(val, defaultval, 2, false, true)
   },
   // endregion
   // region ToCurrencyStr 字符串金额
   ToCurrencyStr: function (val, defaultval) {
-    return KOCString.ToFloat(val, defaultval, 2, true);
+    return KOCString.ToFloat(val, defaultval, 2, true)
   },
   // endregion
   // region ToCurrencyPositiveStr 正数字符串金额
   ToCurrencyPositiveStr: function (val, defaultval) {
-    return KOCString.ToFloat(val, defaultval, 2, true, true);
+    return KOCString.ToFloat(val, defaultval, 2, true, true)
   },
   // endregion
   // region ToBoolean 返回bool
   ToBoolean: function (val, defaultval) {
     if (val === true || val === false) {
-      return val;
+      return val
     }
     switch (KOCString.ToString(val).toLowerCase()) {
       case 'true':
       case '1':
-        return true;
+        return true
       case 'false':
       case '0':
-        return false;
+        return false
       default:
-        return !!defaultval;
+        return !!defaultval
     }
   },
   // endregion
   // region ToJSON
   ToJSON: function (val, defaultval) {
     try {
-      return JSON.parse(KOCString.ToString(val));
+      return JSON.parse(KOCString.ToString(val))
     } catch (ex) {
-      return defaultval || null;
+      return defaultval || null
     }
   },
   // endregion
@@ -261,29 +261,29 @@ var KOCString = {
   },
   // region FloatSplit 拆分(拆分为 符号,整数,小数)
   FloatSplit: function (val, fixed) {
-    val = KOCString.ToFloatStr(val, 0, fixed).split('.');
+    val = KOCString.ToFloatStr(val, 0, fixed).split('.')
     val = {
       Minus: val[0].indexOf('-') === 0,
       Int: val[0].replace('-', ''),
       Decimal: val.length > 1 ? val[1] : null,
-    };
-    val.Html = '<em>' + (val.Minus ? '-' : '') + val.Int + '</em>' + (val.Decimal ? '.' + val.Decimal : '');
-    return val;
+    }
+    val.Html = '<em>' + (val.Minus ? '-' : '') + val.Int + '</em>' + (val.Decimal ? '.' + val.Decimal : '')
+    return val
   },
   // endregion
   // region FloatSplitCurrency
   FloatSplitCurrency: function (val) {
-    return KOCString.FloatSplit(val, 2);
+    return KOCString.FloatSplit(val, 2)
   },
   // endregion
   // region MD5
   MD5: function (val) {
-    return CryptoJS.MD5(val).toString();
+    return CryptoJS.MD5(val).toString()
   },
   // endregion
   // region SHA1
   SHA1: function (val) {
-    return CryptoJS.SHA1(val).toString();
+    return CryptoJS.SHA1(val).toString()
   },
   // endregion
   // region AESEncrypt:AES加密
@@ -294,7 +294,7 @@ var KOCString = {
    * @returns {string} 加密字符串
    *************************/
   AESEncrypt: function (val, key) {
-    return CryptoJS.AES.encrypt(val, key).toString();
+    return CryptoJS.AES.encrypt(val, key).toString()
   },
   // endregion
   // region AESDecrypt:AES解密
@@ -305,7 +305,7 @@ var KOCString = {
    * @returns {string} 解密字符串
    **************************/
   AESDecrypt: function (val, key) {
-    return CryptoJS.AES.decrypt(val, key).toString(CryptoJS.enc.Utf8);
+    return CryptoJS.AES.decrypt(val, key).toString(CryptoJS.enc.Utf8)
   },
   // endregion
   // region RandomString 随机字符串
@@ -315,19 +315,20 @@ var KOCString = {
    * @returns {string}
    **************************/
   RandomString: function (len) {
-    len = len || 32;
+    len = len || 32
     /* C */
-    var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';//默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
+    var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678'//默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1
     /* C */
-    var maxPos = chars.length;
+    var maxPos = chars.length
     /* L */
-    var str = '';
+    var str = ''
     for (/* L */ var i = 0; i < len; i++) {
-      str += chars.charAt(Math.floor(Math.random() * maxPos));
+      str += chars.charAt(Math.floor(Math.random() * maxPos))
     }
-    return str;
-  }
+    return str
+  },
   // endregion
-};
+  QueryString: require('querystring')
+}
 
-module.exports = KOCString;
+module.exports = KOCString
