@@ -139,6 +139,7 @@ var KOCString = {
    * val
    * defaultval       默认值(不传为0)
    * positive         是否必须为正值true/false(当true时如果为负值返回defaultval)
+   * @return {number}
    ********************************/
   ToInt: function (val, defaultval, positive) {
     defaultval = parseInt(defaultval)
@@ -153,9 +154,40 @@ var KOCString = {
     return val
   },
   // endregion
+  // region ToIntLocaleStr
+  /**
+   * ToIntLocaleStr
+   * val                   转换值
+   * defaultval            默认值(不传为0)
+   * minimumFractionDigits 小数位数
+   * @return {string}
+   */
+  ToIntLocaleStr: function (val, defaultval, minimumFractionDigits) {
+    return KOCString.ToInt(val, defaultval, false).toLocaleString('arab', {minimumFractionDigits: minimumFractionDigits})
+  },
+  // endregion
   // region ToIntPositive
+  /**
+   * ToIntPositive
+   * val                   转换值
+   * defaultval            默认值(不传为0)
+   *
+   * @return {number}
+   */
   ToIntPositive: function (val, defaultval) {
     return KOCString.ToInt(val, defaultval, true)
+  },
+  // endregion
+  // region ToIntLocaleStr
+  /**
+   * ToIntPositiveLocaleStr
+   * val                   转换值
+   * defaultval            默认值(不传为0)
+   * minimumFractionDigits 小数位数
+   * @return {string}
+   */
+  ToIntPositiveLocaleStr: function (val, defaultval, minimumFractionDigits) {
+    return KOCString.ToInt(val, defaultval, true).toLocaleString('arab', {minimumFractionDigits: minimumFractionDigits})
   },
   // endregion
   // region ToFloat
