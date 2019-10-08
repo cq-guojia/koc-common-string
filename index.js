@@ -73,8 +73,9 @@ var KOCString = {
         retString += val[i]
       } else {
         retStringArray.push(retString)
-        len = length
+        len = length - 1
         retString = ''
+        retString += val[i]
       }
     }
     if (retString) {
