@@ -74,8 +74,7 @@ var KOCString = {
       } else {
         retStringArray.push(retString)
         len = length - 1
-        retString = ''
-        retString += val[i]
+        retString = val[i]
       }
     }
     if (retString) {
