@@ -277,39 +277,6 @@ var KOCString = {
     }
   },
   // endregion
-  // region JSONParams
-  JSONParams: function (data) {
-    try {
-      var tempArr = []
-      for (var i in data) {
-        var key = encodeURIComponent(i)
-        var value = encodeURIComponent(data[i])
-        tempArr.push(key + '=' + value)
-      }
-      return tempArr.join('&')
-    } catch (err) {
-      return ''
-    }
-  },
-  // endregion
-  // region JSONParamsUn
-  JSONParamsUn: function (url) {
-    try {
-      var index = url.indexOf('?')
-      url = url.match(/\?([^#]+)/)[1]
-      var obj = {}, arr = url.split('&')
-      for (var i = 0; i < arr.length; i++) {
-          var subArr = arr[i].split('=')
-          var key = decodeURIComponent(subArr[0])
-          var value = decodeURIComponent(subArr[1])
-          obj[key] = value;
-      }
-      return obj
-    } catch (err) {
-      return {}
-    }
-  },
-  // endregion
   // JSONClear JSON清理(把null,un的键删除)只支持一级
   JSONClear: function (val) {
     try {
