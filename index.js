@@ -1,10 +1,8 @@
 'use strict'
 
-/* C */
 var CryptoJS = require('crypto-js')
 
-/* C */
-var KOCString = {
+var KOCString = module.exports = {
   // region Regular 正则表达式验证
   Regular: {
     Data: {
@@ -84,6 +82,11 @@ var KOCString = {
   },
   // endregion
   // region ToString
+  /**
+   * @description 转换成字符串
+   * @param val 要转换的值
+   * @return {string}
+   */
   ToString: function (val) {
     return val == undefined ? '' : val.toString()
   },
@@ -133,6 +136,24 @@ var KOCString = {
     }
   },
   // endregion
+  /**
+   * @description 转换成数组类型值
+   * @param val 要转换数据
+   * @param defaultval 默认值
+   * @return {Array}
+   */
+  ToArray: function (val, defaultval = []) {
+    return Array.isArray(val) ? val : defaultval
+  },
+  /**
+   * @description 转换成js object
+   * @param val 要转换的数据
+   * @param defaultval 默认值
+   * @return {Object}
+   */
+  ToObject: function (val, defaultval = undefined) {
+    return Object.prototype.toString.call(val) === '[object Object]' ? val : defaultval
+  },
   // region ToInt
   /********************************
    * ToInt
@@ -163,7 +184,7 @@ var KOCString = {
    * @return {string}
    */
   ToIntLocaleStr: function (val, defaultval, minimumFractionDigits) {
-    return KOCString.ToInt(val, defaultval, false).toLocaleString('arab', {minimumFractionDigits: minimumFractionDigits})
+    return KOCString.ToInt(val, defaultval, false).toLocaleString('arab', { minimumFractionDigits: minimumFractionDigits })
   },
   // endregion
   // region ToIntPositive
@@ -187,7 +208,7 @@ var KOCString = {
    * @return {string}
    */
   ToIntPositiveLocaleStr: function (val, defaultval, minimumFractionDigits) {
-    return KOCString.ToInt(val, defaultval, true).toLocaleString('arab', {minimumFractionDigits: minimumFractionDigits})
+    return KOCString.ToInt(val, defaultval, true).toLocaleString('arab', { minimumFractionDigits: minimumFractionDigits })
   },
   // endregion
   // region ToFloat
@@ -251,7 +272,12 @@ var KOCString = {
     return KOCString.ToFloat(val, defaultval, 2, true, true)
   },
   // endregion
-  // region ToBoolean 返回bool
+  /**
+   * @description 转换成布尔类型值
+   * @param val 要转换的字符串
+   * @param defaultval 默认值
+   * @return {boolean}
+   */
   ToBoolean: function (val, defaultval) {
     if (val === true || val === false) {
       return val
@@ -267,8 +293,13 @@ var KOCString = {
         return !!defaultval
     }
   },
-  // endregion
   // region ToJSON
+  /**
+   * @description 转成JSON
+   * @param val 要转换的字符串
+   * @param defaultval 默认值
+   * @return {*|null}
+   */
   ToJSON: function (val, defaultval) {
     try {
       return JSON.parse(KOCString.ToString(val))
@@ -368,5 +399,3 @@ var KOCString = {
    */
   QueryString: require('qs')
 }
-
-module.exports = KOCString
