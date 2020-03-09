@@ -138,11 +138,14 @@ var KOCString = module.exports = {
   // endregion
   /**
    * @description 转换成数组类型值
-   * @param val 要转换数据
+   * @param {number|object|string|Array} val 要转换数据
    * @param defaultval 默认值
+   * @param separator 分隔符(默认,)
    * @return {Array}
    */
-  ToArray: function (val, defaultval = []) {
+  ToArray: function (val, defaultval = [], separator = ',') {
+    if (['number', 'object'].includes(typeof val)) return [val]
+    if (typeof val === 'string') return val.split(separator)
     return Array.isArray(val) ? val : defaultval
   },
   /**
