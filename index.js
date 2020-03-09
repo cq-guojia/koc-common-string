@@ -144,8 +144,8 @@ var KOCString = module.exports = {
    * @return {Array}
    */
   ToArray: function (val, defaultval = [], separator = ',') {
-    if (['number', 'object'].includes(typeof val)) return [val]
-    if (typeof val === 'string') return val.split(separator)
+    if (['[object Number]', '[object Object]'].includes(Object.prototype.toString.call(val))) return [val]
+    if (Object.prototype.toString.call(val) === '[object String]') return val.split(separator)
     return Array.isArray(val) ? val : defaultval
   },
   /**
