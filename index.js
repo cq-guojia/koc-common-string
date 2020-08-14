@@ -263,10 +263,11 @@ var KOCString = module.exports = {
    * @param defaultval 默认值(不传为0)
    * @param fixed 小数位数
    * @param positive 是否必须为正值true/false(当true时如果为负值返回defaultval)
+   * @param minimumFractionDigits 使用的小数位数的最小数目.可能的值是从 0 到 20；默认为普通的数字和百分比格式为 0；
    * @return {string}
    */
-  ToFloatLocaleStr: function (val, defaultval, fixed, positive) {
-    return KOCString.ToFloat(val, defaultval, fixed, true, positive).toLocaleString('arab')
+  ToFloatLocaleStr: function (val, defaultval, fixed, positive, minimumFractionDigits) {
+    return KOCString.ToFloat(val, defaultval, fixed, false, positive).toLocaleString('arab', { minimumFractionDigits })
   },
   // region ToFloatPositiveStr 正数字符串Float
   ToFloatPositiveStr: function (val, defaultval, fixed) {
@@ -301,7 +302,7 @@ var KOCString = module.exports = {
    * @return {String}
    */
   ToCurrencyLocaleStr: function (val, defaultval, positive) {
-    return KOCString.ToFloat(val, defaultval, 2, true, positive).toLocaleString('arab')
+    return KOCString.ToFloatLocaleStr(val, defaultval, 2, positive, 2)
   },
   /**
    * @description 转换成布尔类型值
