@@ -228,15 +228,15 @@ var KOCString = module.exports = {
    * defaultval       默认值(不传为0)
    * fixed            小数位数
    * str              是否返回字符串
-   * notnegative      是否必须为正值true/false(当true时如果为负值返回defaultval)
+   * positive      是否必须为正值true/false(当true时如果为负值返回defaultval)
    ********************************/
-  ToFloat: function (val, defaultval, fixed, str, positive, notnegative) {
+  ToFloat: function (val, defaultval, fixed, str, positive) {
     defaultval = isNaN(parseFloat(defaultval)) ? 0 : parseFloat(defaultval)
     val = parseFloat(val)
     if (isNaN(val)) {
       val = defaultval
     }
-    if (notnegative && val < 0) {
+    if (positive && val < 0) {
       val = defaultval < 0 ? 0 : defaultval
     }
     fixed = KOCString.ToInt(fixed, -1)
@@ -257,6 +257,17 @@ var KOCString = module.exports = {
     return KOCString.ToFloat(val, defaultval, fixed, true)
   },
   // endregion
+  /**
+   * @description 转换当地语言字符串
+   * @param val 转换值
+   * @param defaultval 默认值(不传为0)
+   * @param fixed 小数位数
+   * @param positive 是否必须为正值true/false(当true时如果为负值返回defaultval)
+   * @return {string}
+   */
+  ToFloatLocaleStr: function (val, defaultval, fixed, positive) {
+    return KOCString.ToFloat(val, defaultval, fixed, false, positive).toLocaleString('arab')
+  },
   // region ToFloatPositiveStr 正数字符串Float
   ToFloatPositiveStr: function (val, defaultval, fixed) {
     return KOCString.ToFloat(val, defaultval, fixed, true, true)
@@ -282,6 +293,16 @@ var KOCString = module.exports = {
     return KOCString.ToFloat(val, defaultval, 2, true, true)
   },
   // endregion
+  /**
+   * @description 转换当地语言字符串
+   * @param val 转换值
+   * @param defaultval 默认值(不传为0)
+   * @param positive 是否必须为正值true/false(当true时如果为负值返回defaultval)
+   * @return {String}
+   */
+  ToCurrencyLocaleStr: function (val, defaultval, positive) {
+    return KOCString.ToFloat(val, defaultval, 2, false, positive).toLocaleString('arab')
+  },
   /**
    * @description 转换成布尔类型值
    * @param val 要转换的字符串
