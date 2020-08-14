@@ -266,7 +266,7 @@ var KOCString = module.exports = {
    * @return {string}
    */
   ToFloatLocaleStr: function (val, defaultval, fixed, positive) {
-    return KOCString.ToFloat(val, defaultval, fixed, false, positive).toLocaleString('arab')
+    return KOCString.ToFloat(val, defaultval, fixed, true, positive).toLocaleString('arab')
   },
   // region ToFloatPositiveStr 正数字符串Float
   ToFloatPositiveStr: function (val, defaultval, fixed) {
@@ -301,7 +301,7 @@ var KOCString = module.exports = {
    * @return {String}
    */
   ToCurrencyLocaleStr: function (val, defaultval, positive) {
-    return KOCString.ToFloat(val, defaultval, 2, false, positive).toLocaleString('arab')
+    return KOCString.ToFloat(val, defaultval, 2, true, positive).toLocaleString('arab')
   },
   /**
    * @description 转换成布尔类型值
