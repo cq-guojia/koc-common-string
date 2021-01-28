@@ -1,11 +1,11 @@
 {
   "name": "koc-common-string",
-  "version": "1.0.50",
+  "version": "1.0.51",
   "description": "koc-common-string",
   "main": "index.js",
   "dependencies": {
     "crypto-js": "^4.0.0",
-    "qs": "^6.9.4"
+    "qs": "^6.9.6"
   },
   "repository": {
     "type": "git",
