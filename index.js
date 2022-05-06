@@ -82,41 +82,24 @@ var KOCString = module.exports = {
     return retStringArray
   },
   // endregion
-  // region ToString
   /**
-   * @description 转换成字符串
-   * @param val 要转换的值
-   * @return {string}
+   * 字符串脱敏
+   * @param {string} str 原始字符串
+   * @param {string} type 类型 Name/Phone/IDCard/Email/QQ
+   * @param {string} [char] 替代串，默认*
+   * @returns {string}
    */
-  ToString: function (val) {
-    return val == undefined ? '' : val.toString()
-  },
-  // endregion
-  // region Cover
-  /********************************
-   * Cover
-   * str
-   * type             Phone/IDCard/Email/QQ
-   * char             替代串，默认*
-   ********************************/
   Cover: function (str, type, char) {
     str = KOCString.ToString(str)
-    if (!str) {
-      return ''
-    }
+    if (!str) return ''
     char = char || '*'
-    if (type == 'Name') {
+    if (type === 'Name') {
       return str.substr(0, 1) + char + char
-    } else if ((!type || type == 'Phone') &&
-      KOCString.Regular.Verify(str, 'Phone')) {
-      return str.substr(0, 3) + char + char + char + char +
-        str.substr(str.length - 4)
-    } else if ((!type || type == 'IDCard') &&
-      KOCString.Regular.Verify(str, 'IDCard')) {
-      return str.substr(0, 6) + char + char + char + char + char + char + char +
-        char + str.substr(str.length - 4)
-    } else if ((!type || type == 'Email') &&
-      KOCString.Regular.Verify(str, 'Email')) {
+    } else if ((!type || type === 'Phone') && KOCString.Regular.Verify(str, 'Phone')) {
+      return str.substr(0, 3) + char + char + char + char + str.substr(str.length - 4)
+    } else if ((!type || type === 'IDCard') && KOCString.Regular.Verify(str, 'IDCard')) {
+      return str.substr(0, 6) + char + char + char + char + char + char + char + char + str.substr(str.length - 4)
+    } else if ((!type || type === 'Email') && KOCString.Regular.Verify(str, 'Email')) {
       var _index = str.indexOf('@')
       if (_index < 3) {
         return char + char + char + str.substr(_index)
@@ -124,7 +107,7 @@ var KOCString = module.exports = {
       var _len = KOCString.ToInt(_index / 3)
       return str.substr(0, _len) + char + char + char + char + char +
         str.substr(_index - _len)
-    } else if ((!type || type == 'QQ') && KOCString.Regular.Verify(str, 'QQ')) {
+    } else if ((!type || type === 'QQ') && KOCString.Regular.Verify(str, 'QQ')) {
       var _len = KOCString.ToInt(str.length / 3)
       return str.substr(0, _len) + char + char + char + char + char +
         str.substr(str.length - _len)
@@ -136,12 +119,19 @@ var KOCString = module.exports = {
       return char + char + char
     }
   },
-  // endregion
   /**
-   * @description 转换成数组类型值
-   * @param {number|object|string|Array} val 要转换数据
-   * @param defaultval 默认值
-   * @param separator 分隔符(默认,)
+   * 转换成字符串
+   * @param val 转换值
+   * @return {string}
+   */
+  ToString: function (val) {
+    return val == undefined ? '' : val.toString()
+  },
+  /**
+   * 转换成数组类型值
+   * @param {number|object|string|Array} val 转换值
+   * @param {Array} [defaultval] 默认值
+   * @param {string} [separator] 分隔符(默认,)
    * @return {Array}
    */
   ToArray: function (val, defaultval = [], separator = ',') {
@@ -156,22 +146,21 @@ var KOCString = module.exports = {
     }
   },
   /**
-   * @description 转换成js object
-   * @param val 要转换的数据
-   * @param defaultval 默认值
+   * 转换成js object
+   * @param val 转换值
+   * @param [defaultval] 默认值
    * @return {Object}
    */
   ToObject: function (val, defaultval = undefined) {
     return Object.prototype.toString.call(val) === '[object Object]' ? val : defaultval
   },
-  // region ToInt
-  /********************************
-   * ToInt
-   * val
-   * defaultval       默认值(不传为0)
-   * positive         是否必须为正值true/false(当true时如果为负值返回defaultval)
-   * @return {number}
-   ********************************/
+  /**
+   * 转换成整数类型
+   * @param val 转换值
+   * @param [defaultval] 默认值(不传为0)
+   * @param [positive] 是否必须为正值true/false(当true时如果为负值返回defaultval)
+   * @returns {number}
+   */
   ToInt: function (val, defaultval, positive) {
     defaultval = parseInt(defaultval)
     defaultval = isNaN(defaultval) ? 0 : defaultval
@@ -184,136 +173,152 @@ var KOCString = module.exports = {
     }
     return val
   },
-  // endregion
-  // region ToIntLocaleStr
   /**
-   * ToIntLocaleStr
-   * val                   转换值
-   * defaultval            默认值(不传为0)
-   * minimumFractionDigits 小数位数
+   * 转换成当地语言整数字符串
+   * @param val 转换值
+   * @param [defaultval] 默认值(不传为0)
+   * @param [minimumFractionDigits] 小数位数
    * @return {string}
    */
   ToIntLocaleStr: function (val, defaultval, minimumFractionDigits) {
     return KOCString.ToInt(val, defaultval, false).toLocaleString('arab', { minimumFractionDigits: minimumFractionDigits })
   },
-  // endregion
-  // region ToIntPositive
   /**
-   * ToIntPositive
-   * val                   转换值
-   * defaultval            默认值(不传为0)
-   *
+   * 转换成正整数
+   * @param val 转换值
+   * @param [defaultval] 默认值(不传为0)
    * @return {number}
    */
   ToIntPositive: function (val, defaultval) {
     return KOCString.ToInt(val, defaultval, true)
   },
-  // endregion
-  // region ToIntLocaleStr
   /**
-   * ToIntPositiveLocaleStr
-   * val                   转换值
-   * defaultval            默认值(不传为0)
-   * minimumFractionDigits 小数位数
+   * 转换成当地语言正整数字符串
+   * @param val                   转换值
+   * @param [defaultval]            默认值(不传为0)
+   * @param [minimumFractionDigits] 小数位数
    * @return {string}
    */
   ToIntPositiveLocaleStr: function (val, defaultval, minimumFractionDigits) {
     return KOCString.ToInt(val, defaultval, true).toLocaleString('arab', { minimumFractionDigits: minimumFractionDigits })
   },
-  // endregion
-  // region ToFloat
-  /********************************
-   * ToFloat
-   * val
-   * defaultval       默认值(不传为0)
-   * fixed            小数位数
-   * str              是否返回字符串
-   * positive      是否必须为正值true/false(当true时如果为负值返回defaultval)
-   ********************************/
-  ToFloat: function (val, defaultval, fixed, str, positive) {
+  /**
+   * 转换成浮点数
+   * @param val 转换值
+   * @param [defaultval] 默认值(不传为0)
+   * @param {number} [fixed] 小数位数 默认值(不传为0)
+   * @param {boolean} [str] 是否返回字符串
+   * @param [positive] 是否必须为正值true/false(当true时如果为负值返回defaultval)
+   * @returns {string|number}
+   */
+  ToFloat: function (val, defaultval, fixed = 0, str, positive) {
     defaultval = isNaN(parseFloat(defaultval)) ? 0 : parseFloat(defaultval)
     val = parseFloat(val)
-    if (isNaN(val)) {
-      val = defaultval
-    }
-    if (positive && val < 0) {
-      val = defaultval < 0 ? 0 : defaultval
-    }
+    if (isNaN(val)) val = defaultval
+    if (positive && val < 0) val = defaultval < 0 ? 0 : defaultval
     fixed = KOCString.ToInt(fixed, -1)
-    if (fixed >= 0) {
-      val = val.toFixed(fixed)
-    }
+    if (fixed >= 0) val = val.toFixed(fixed)
     val = str ? KOCString.ToString(val) : parseFloat(val)
     return val
   },
-  // endregion
-  // region ToFloatPositive 正数Float
+  /**
+   * 转换成正数浮点数
+   * @param val 转换值
+   * @param [defaultval] 默认值(不传为0)
+   * @param {number} [fixed] 小数位数 默认值(不传为0)
+   * @returns {number}
+   */
   ToFloatPositive: function (val, defaultval, fixed) {
     return KOCString.ToFloat(val, defaultval, fixed, false, true)
   },
-  // endregion
   // region ToFloatStr 字符串Float
+  /**
+   * 转换成数浮点数字符串
+   * @param val 转换值
+   * @param [defaultval] 默认值(不传为0)
+   * @param {number} [fixed] 小数位数 默认值(不传为0)
+   * @returns {string}
+   */
   ToFloatStr: function (val, defaultval, fixed) {
     return KOCString.ToFloat(val, defaultval, fixed, true)
   },
   // endregion
   /**
-   * @description 转换当地语言字符串
+   * 转换成当地语言浮点数字符串
    * @param val 转换值
-   * @param defaultval 默认值(不传为0)
-   * @param fixed 小数位数
-   * @param positive 是否必须为正值true/false(当true时如果为负值返回defaultval)
+   * @param [defaultval] 默认值(不传为0)
+   * @param {number} [fixed] 小数位数 默认值(不传为0)
+   * @param {boolean} [positive] 是否必须为正值true/false(当true时如果为负值返回defaultval)
    * @param minimumFractionDigits 使用的小数位数的最小数目.可能的值是从 0 到 20；默认为普通的数字和百分比格式为 0；
    * @return {string}
    */
-  ToFloatLocaleStr: function (val, defaultval, fixed, positive, minimumFractionDigits) {
+  ToFloatLocaleStr: function (val, defaultval, fixed = 0, positive = false, minimumFractionDigits) {
     return KOCString.ToFloat(val, defaultval, fixed, false, positive).toLocaleString('arab', { minimumFractionDigits })
   },
-  // region ToFloatPositiveStr 正数字符串Float
-  ToFloatPositiveStr: function (val, defaultval, fixed) {
+  /**
+   * 转换成当地语言正浮点数字符串
+   * @param val 转换值
+   * @param [defaultval] 默认值(不传为0)
+   * @param {number} [fixed] 小数位数 默认值(不传为0)
+   * @returns {string}
+   */
+  ToFloatPositiveStr: function (val, defaultval, fixed = 0) {
     return KOCString.ToFloat(val, defaultval, fixed, true, true)
   },
-  // endregion
-  // region ToCurrency 金额
-  ToCurrency: function (val, defaultval) {
+  /**
+   * 转换成金额浮点数
+   * @param val 转换值
+   * @param [defaultval] 默认值(不传为0)
+   * @returns {number}
+   */
+  ToCurrency: function (val, defaultval = 0) {
     return KOCString.ToFloat(val, defaultval, 2)
   },
-  // endregion
-  // region ToCurrencyPositive 正数金额
-  ToCurrencyPositive: function (val, defaultval) {
+  /**
+   * 转换成金额正浮点数
+   * @param val 转换值
+   * @param [defaultval] 默认值(不传为0)
+   * @returns {number}
+   */
+  ToCurrencyPositive: function (val, defaultval = 0) {
     return KOCString.ToFloat(val, defaultval, 2, false, true)
   },
-  // endregion
-  // region ToCurrencyStr 字符串金额
-  ToCurrencyStr: function (val, defaultval) {
+  /**
+   * 转换成金额浮点数字符串
+   * @param val 转换值
+   * @param [defaultval] 默认值(不传为0)
+   * @returns {string}
+   */
+  ToCurrencyStr: function (val, defaultval = 0) {
     return KOCString.ToFloat(val, defaultval, 2, true)
   },
-  // endregion
-  // region ToCurrencyPositiveStr 正数字符串金额
-  ToCurrencyPositiveStr: function (val, defaultval) {
+  /**
+   * 转换成金额正浮点数字符串
+   * @param val 转换值
+   * @param [defaultval] 默认值(不传为0)
+   * @returns {string|number}
+   */
+  ToCurrencyPositiveStr: function (val, defaultval = 0) {
     return KOCString.ToFloat(val, defaultval, 2, true, true)
   },
-  // endregion
   /**
-   * @description 转换当地语言字符串
+   * 转换成当地语言金额浮点数字符串
    * @param val 转换值
-   * @param defaultval 默认值(不传为0)
+   * @param [defaultval] 默认值(不传为0)
    * @param positive 是否必须为正值true/false(当true时如果为负值返回defaultval)
-   * @return {String}
+   * @return {string}
    */
-  ToCurrencyLocaleStr: function (val, defaultval, positive) {
+  ToCurrencyLocaleStr: function (val, defaultval = 0, positive) {
     return KOCString.ToFloatLocaleStr(val, defaultval, 2, positive, 2)
   },
   /**
-   * @description 转换成布尔类型值
-   * @param val 要转换的字符串
-   * @param defaultval 默认值
+   * 转换成布尔类型值
+   * @param val 转换值
+   * @param [defaultval] 默认值(false)
    * @return {boolean}
    */
-  ToBoolean: function (val, defaultval) {
-    if (val === true || val === false) {
-      return val
-    }
+  ToBoolean: function (val, defaultval = false) {
+    if (val === true || val === false) return val
     switch (KOCString.ToString(val).toLowerCase()) {
       case 'true':
       case '1':
@@ -325,22 +330,24 @@ var KOCString = module.exports = {
         return !!defaultval
     }
   },
-  // region ToJSON
   /**
-   * @description 转成JSON
-   * @param val 要转换的字符串
-   * @param defaultval 默认值
-   * @return {*|null}
+   * 转成JSON
+   * @param {string} val 要转换的字符串
+   * @param [defaultval] 默认值(null)
+   * @return {JSON|null}
    */
-  ToJSON: function (val, defaultval) {
+  ToJSON: function (val, defaultval = null) {
     try {
       return JSON.parse(KOCString.ToString(val))
     } catch (ex) {
-      return defaultval || null
+      return defaultval
     }
   },
-  // endregion
-  // JSONClear JSON清理(把null,un的键删除)只支持一级
+  /**
+   * JSON清理(把null,un的键删除)只支持一级
+   * @param {JSON} val
+   * @returns {null|*}
+   */
   JSONClear: function (val) {
     try {
       /* C */
@@ -404,11 +411,11 @@ var KOCString = module.exports = {
   },
   // endregion
   // region RandomString 随机字符串
-  /**************************
-   *
-   * @param len
+  /**
+   * 随机字符串
+   * @param {number} len 长度
    * @returns {string}
-   **************************/
+   */
   RandomString: function (len) {
     len = len || 32
     /* C */
